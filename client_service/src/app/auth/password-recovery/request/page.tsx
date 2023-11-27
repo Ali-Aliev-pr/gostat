@@ -6,6 +6,7 @@ import {Logo} from '@/app/shared/icons/components/logo';
 import { requestResetPassword } from "../../api";
 
 import { useTranslate } from "@/app/shared/libs/i18n";
+import { REGEX } from "@/app/shared/constants/regex";
 
 enum Page {
   Request = "request",
@@ -18,15 +19,28 @@ export default function Request() {
   const [page, setPage] = useState(Page.Request);
   const [email, setEmail] = useState('');
 
-  const submit = async (e: any) => {
-    try {
-      const response = await requestResetPassword(e);
+  const validateMail = (email: string) => {
+    return REGEX.emailRegex.test(email)
+  }
 
-      if (response.data.successful === true) {
-        setPage(Page.Alert);
+  const submit = async (e: any) => {
+    const validEmail = validateMail(email)
+
+    if (
+      email !== '' && 
+      validEmail === true
+    ) {
+      try {
+        const response = await requestResetPassword(e);
+  
+        if (response.data.successful === true) {
+          setPage(Page.Alert);
+        }
+      } catch (error: any) {
+        alert("Произошла ошибка")
       }
-    } catch (error: any) {
-      alert("Произошла ошибка")
+    } else {
+      alert(t("auth.notValid"))
     }
   }
 

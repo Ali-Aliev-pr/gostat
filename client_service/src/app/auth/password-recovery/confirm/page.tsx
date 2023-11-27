@@ -10,6 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { resetPassword } from "../../api";
 
 import Storage from "@/app/utils/storage"
+import { REGEX } from "@/app/shared/constants/regex";
 
 export default function Confirm() {
   const router = useRouter();
@@ -24,13 +25,33 @@ export default function Confirm() {
   const handlePasswordChange = (e: any) => setPassword(e.target.value);
   const handleSetRepeatPassword = (e: any) => setRepeatPassword(e.target.value);
 
+  const validatePassword = (password: string, repeatPassword: string) => {
+    return (
+      REGEX.lengthRegex.test(password) &&
+      REGEX.specialCharRegex.test(password) &&
+      REGEX.digitRegex.test(password) &&
+      REGEX.uppercaseRegex.test(password) &&
+      REGEX.lowercaseRegex.test(password) &&
+      password === repeatPassword
+    );
+  }
+
   const submit = async () => {
+    const passwordValidate = validatePassword(password, repaetPassword)
+
     if (password !== repaetPassword) {
       return alert("Пароль не совпадают")
     }
     
     if (secretCode === null ) {
       return alert("Возникла ошибка, секретный код не может быть пустым")
+    }
+
+    if (
+      password === '' &&
+      passwordValidate === false
+    ) {
+      alert(t("auth.notValid"))
     }
 
     try {
