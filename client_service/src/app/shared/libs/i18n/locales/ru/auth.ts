@@ -51,6 +51,7 @@ export const auth = {
   continue: "Продолжить",
   loading: "Загрузка ...",
   notValid: "Пароль или логин не валиден",
+  notValidSignUp: "Один из полей заполенен не верно!",
 
 
   namePlaceholder: "Имя",

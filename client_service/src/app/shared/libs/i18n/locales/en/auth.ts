@@ -51,6 +51,7 @@ export const auth = {
   continue: "Continue",
   loading: "Loading ...",
   notValid: "Password or login is not valid",
+  notValidSignUp: "One of the fields is filled in incorrectly!",
 
   namePlaceholder: "Name",
   emailPlaceholder: "E-mail",

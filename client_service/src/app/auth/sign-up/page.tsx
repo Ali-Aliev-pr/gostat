@@ -13,11 +13,10 @@ import { useRouter } from "next/navigation";
 
 import { useTranslate } from "@/app/shared/libs/i18n";
 
-
+import { REGEX } from '@/app/shared/constants/regex';
 
 export default function SingIn() {  
   const router = useRouter();
-
   const t = useTranslate()
 
   useEffect(() => {
@@ -49,23 +48,54 @@ export default function SingIn() {
     setRepeat(e.target.value);
   };
 
-  const submit = async (e: any) => {
-    e.preventDefault();
-    const response = await singUp({
-      first_name: name,
-      last_name: "-",
-      middle_name: "-",
-      mail: email,
-      login: email,
-      password: password,
-    });
+  const validatePassword = (password: string, repeatPassword: string) => {
 
-    Storage.set("access_token", response.data.access_token);
-    router.push("/dashboard", { scroll: false });
+    return (
+      REGEX.lengthRegex.test(password) &&
+      REGEX.specialCharRegex.test(password) &&
+      REGEX.digitRegex.test(password) &&
+      REGEX.uppercaseRegex.test(password) &&
+      REGEX.lowercaseRegex.test(password) &&
+      password === repeatPassword
+    );
+  }
+
+  const validateMail = (email: string) => {
+    return REGEX.emailRegex.test(email)
+  }
+
+  const submit = async (e: any) => {
+    let validPassword = validatePassword(password, repeat)
+    let validMail = validateMail(email)
+
+    if (
+      name !== '' &&
+      email !== '' &&
+      password !== '' &&
+      repeat !== '' &&
+      validPassword === true &&
+      validMail === true
+    ) {
+      e.preventDefault();
+      const response = await singUp({
+        first_name: name,
+        last_name: "-",
+        middle_name: "-",
+        mail: email,
+        login: email,
+        password: password,
+      });
+
+      Storage.set("access_token", response.data.access_token);
+      router.push("/dashboard", { scroll: false });
+    } else {
+      alert(t("auth.notValidSignUp"))
+    }
   };
 
   return (
     <div className={styles.box}>
+
       <div className={styles.top}>
         <div className={styles.logo}>
           <Logo />
