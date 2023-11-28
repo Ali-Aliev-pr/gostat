@@ -52,6 +52,8 @@ export const auth = {
   loading: "Loading ...",
   notValid: "Password or login is not valid",
   notValidSignUp: "One of the fields is filled in incorrectly!",
+  secretCodeError: "An error occurred, the secret code cannot be empty",
+  repeatPasswordError: "Passwords don't match",
 
   namePlaceholder: "Name",
   emailPlaceholder: "E-mail",

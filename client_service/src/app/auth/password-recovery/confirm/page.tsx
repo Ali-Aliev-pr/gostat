@@ -11,6 +11,7 @@ import { resetPassword } from "../../api";
 
 import Storage from "@/app/utils/storage"
 import { REGEX } from "@/app/shared/constants/regex";
+import { auth } from "@/app/shared/libs/i18n/locales/en/auth";
 
 export default function Confirm() {
   const router = useRouter();
@@ -40,11 +41,11 @@ export default function Confirm() {
     const passwordValidate = validatePassword(password, repaetPassword)
 
     if (password !== repaetPassword) {
-      return alert("Пароль не совпадают")
+      return alert(t("auth.repeatPasswordError"))
     }
     
     if (secretCode === null ) {
-      return alert("Возникла ошибка, секретный код не может быть пустым")
+      return alert(t("auth.secretCodeError"))
     }
 
     if (

@@ -52,6 +52,8 @@ export const auth = {
   loading: "Загрузка ...",
   notValid: "Пароль или логин не валиден",
   notValidSignUp: "Один из полей заполенен не верно!",
+  secretCodeError: "Возникла ошибка, секретный код не может быть пустым",
+  repeatPasswordError: "Пароль не совпадают",
 
 
   namePlaceholder: "Имя",
